@@ -19,7 +19,7 @@ All dependencies are included, under the terms of their respective licenses.
 - [flot](http://www.flotcharts.org/) (with the pie plugin)
 - [ExplorerCanvas](http://code.google.com/p/explorercanvas/) (optional, for IE <= 8 support)
 - [PreloadJS](http://www.createjs.com/#!/PreloadJS)
-- [SoundJS](http://www.createjs.com/#!/SoundJS) (with flash plugin for prowsers that lack HTML5 audio support)
+- [SoundJS](http://www.createjs.com/#!/SoundJS) (with Flash plugin for browsers that lack HTML5 audio support)
 
 Credits
 -------
