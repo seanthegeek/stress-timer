@@ -1,4 +1,4 @@
-These files are based on the "Clock Ticking" recording by ackstrebor; used under a Sampling+ license. 
+These files are based on the "Clock Ticking" recording by jackstrebor; used under a Sampling+ license. 
 
 "This is a battery operated wall clock with second hand making the tick noise. 
 Recorded digitally with a Canon Digital Video Camcorder GL2 using a 
