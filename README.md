@@ -15,7 +15,7 @@ Dependencies
 All dependencies are included, under the terms of their respective licenses.
 
 - [HTML5 Boilerplate][3]
-    - [jQuery]
+    - [jQuery][4]
     - [html5shiv][5] (optional, HTML5 IE enabling script)
 - [flot][6] (with the pie plugin)
     - [ExplorerCanvas][7] (optional, for IE <= 8 support)
