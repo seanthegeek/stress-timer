@@ -1,7 +1,7 @@
 stress-timer
 ============
 
-A HTML5-based timer that designed to act as a social stresser during an exam. 
+A HTML5-based timer that is designed to act as a social stresser during an exam. 
 A black circle represents the time allotted to complete the exam. The sound of a 
 ticking clock is used to emphasize the passage of time. As time elapses, the 
 circle becomes an increasingly smaller arc (representing the remaining time), and the 
