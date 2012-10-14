@@ -24,7 +24,13 @@ $(document).ready(function(){
     "use strict";
     
     // Declare storage
-	var remaining, elapsed, soundPath, item, queue;
+	var remaining, elapsed, message, ui, status, soundPath, item, queue;
+	
+	// Get elements
+	message = $("#message");
+	status = $("#status");
+	ui = $("#ui");
+	
 	
 	function draw () {
 		var data = [{color: "black", data: remaining},
@@ -69,9 +75,6 @@ $(document).ready(function(){
 		remaining = minutes * 60;
 		elapsed = 0;
 		
-		// Stop the ticking sound (if playing)
-		createjs.SoundJS.stop();
-		
 		// Exit full screen (if needed)
 		exitFullScreen();
 		
@@ -79,17 +82,16 @@ $(document).ready(function(){
 		draw();
 		
 		// Hide the loading message
-		$("#message").hide();
+		message.hide();
 		
 		// Set the status message text
-		$("#status").text(minutes + " minutes");
+		status.text(minutes + " minutes");
 		
 		// Show the UI
-		$("#ui").show();
+		ui.show();
 	}
 	
 	function handleFileError (e) {
-	  var message = $("#message");
 	  message.text("Could not load the sound file :(");
 	  message.show();
 	}
@@ -99,13 +101,15 @@ $(document).ready(function(){
 		remaining -= 1;
 		elapsed += 1;
 		
+		// Play the tick sound 
+		createjs.SoundJS.play("tick", null , null, null, null, volume);
+		
 		// Update the chart
 		draw();
 		
 		// Gradually increase the volume 
 		if (volume < 1) {
 			volume += volumeStep;
-			createjs.SoundJS.setVolume(volume);	
 		}
 		
 		// Repeat until the time runs out
@@ -119,13 +123,10 @@ $(document).ready(function(){
 	
 	function start () {
 		// Hide the UI
-		$("#ui").hide();
+		ui.hide();
 		
 		// Go full screen (if supported by the browser)
 		fullScreen();
-		
-		// Start looping the ticking sound at the initial volume 
-		createjs.SoundJS.play("tick", null , null, null, -1, volume);
 		
 		// Start the timer loop
 		tick();
@@ -148,6 +149,12 @@ $(document).ready(function(){
     queue.onComplete = reset;
     queue.onFileError = handleFileError;
     queue.loadFile(item, true);
+	
+	// Check for volume control
+	if (createjs.SoundJS.getCapability("volume") == false) {
+	    message.text("Warning - This browser does not support volume control.");
+		message.show();
+	}
     
     // Bind the start function to the start button
     $("#start").click(function (event) {
