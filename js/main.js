@@ -30,48 +30,47 @@ $(document).ready(function(){
 	message = $("#message");
 	status = $("#status");
 	ui = $("#ui");
-	
-	
-	function draw () {
-		var data = [{color: "black", data: remaining},
-			    {color: "white", data: elapsed}];
-			    
-			    $.plot($("#chart"), data,
-{
-        series: {
-            pie: {
-                show: true
-            }
-        }});
-	}
-	
+		
 	function fullScreen () {
-		var docElm = document.documentElement;
-		if (docElm.requestFullscreen) {
-		    docElm.requestFullscreen();
-		}
-		else if (docElm.mozRequestFullScreen) {
-		    docElm.mozRequestFullScreen();
-		}
-		else if (docElm.webkitRequestFullScreen) {
-		    docElm.webkitRequestFullScreen();
-		}
+	var docElm = document.documentElement;
+	if (docElm.requestFullscreen) {
+		docElm.requestFullscreen();
 	}
-	
+	else if (docElm.mozRequestFullScreen) {
+		docElm.mozRequestFullScreen();
+	}
+	else if (docElm.webkitRequestFullScreen) {
+		docElm.webkitRequestFullScreen();
+	}
+}
+
 	function exitFullScreen () {
 		 if (document.exitFullscreen) {
-		    document.exitFullscreen();
+			document.exitFullscreen();
 		}
 		else if (document.mozCancelFullScreen) {
-		    document.mozCancelFullScreen();
+			document.mozCancelFullScreen();
 		}
 		else if (document.webkitCancelFullScreen) {
-		    document.webkitCancelFullScreen();
+			document.webkitCancelFullScreen();
 		}
 	}
-	
+
+	function draw () {
+		var data = [{color: "black", data: remaining},
+				{color: "white", data: elapsed}];
+				
+				$.plot($("#chart"), data,
+	{
+		series: {
+			pie: {
+				show: true
+			}
+		}});
+	}
+
 	function reset () {
-	    // Reset the timer
+		// Reset the timer
 		remaining = minutes * 60;
 		elapsed = 0;
 		
@@ -90,14 +89,14 @@ $(document).ready(function(){
 		// Show the UI
 		ui.show();
 	}
-	
+
 	function handleFileError (e) {
 	  message.text("Could not load the sound file :(");
 	  message.show();
 	}
-	
+
 	function tick () {
-	    // Update the timer
+		// Update the timer
 		remaining -= 1;
 		elapsed += 1;
 		
@@ -108,19 +107,24 @@ $(document).ready(function(){
 		draw();
 		
 		// Gradually increase the volume 
-		if (volume < 1) {
-			volume += volumeStep;
+		if (volume < 1.0) {
+			if ((volume + volumeStep) > 1.0) {
+			volume = 1.0;
+			}
+			else {
+					volume += volumeStep;
+				}
 		}
 		
 		// Repeat until the time runs out
 	  if (remaining > 0) {
-	      // Update every second (1000 milliseconds)
-	      setTimeout(function(){tick();}, 1000);
+		  // Update every second (1000 milliseconds)
+		  setTimeout(function(){tick();}, 1000);
 	  } else {
-	      reset();
+		  reset();
 	  }
 	}
-	
+
 	function start () {
 		// Hide the UI
 		ui.hide();
@@ -131,33 +135,33 @@ $(document).ready(function(){
 		// Start the timer loop
 		tick();
 	}
-	
-     // Initialize the base path from this document to the Flash Plugin
-     createjs.FlashPlugin.BASE_PATH = "js/vendor/";
-    
-    // Add the sounds to the queue
-     soundPath = "sound/34855__jackstrebor__clock-ticking";
-    item = {src:soundPath+".mp3|"+soundPath+".ogg", id:"tick"};
-    
-    // Instantiate a queue.
-    queue = new createjs.PreloadJS();
-    
-    // Plug in SoundJS to handle browser-specific paths
-    queue.installPlugin(createjs.SoundJS);
-    
-    // Load the sound file
-    queue.onComplete = reset;
-    queue.onFileError = handleFileError;
-    queue.loadFile(item, true);
-	
+
+	 // Initialize the base path from this document to the Flash Plugin
+	 createjs.FlashPlugin.BASE_PATH = "js/vendor/";
+
+	// Add the sounds to the queue
+	 soundPath = "sound/34855__jackstrebor__clock-ticking";
+	item = {src:soundPath+".mp3|"+soundPath+".ogg", id:"tick"};
+
+	// Instantiate a queue.
+	queue = new createjs.PreloadJS();
+
+	// Plug in SoundJS to handle browser-specific paths
+	queue.installPlugin(createjs.SoundJS);
+
+	// Load the sound file
+	queue.onComplete = reset;
+	queue.onFileError = handleFileError;
+	queue.loadFile(item, true);
+
 	// Check for volume control
 	if (createjs.SoundJS.getCapability("volume") == false) {
-	    message.text("Warning - This browser does not support volume control.");
+		message.text("Warning - This browser does not support volume control.");
 		message.show();
 	}
-    
-    // Bind the start function to the start button
-    $("#start").click(function (event) {
-        start();
-        });
+
+	// Bind the start function to the start button
+	$("#start").click(function (event) {
+		start();
+		});
  });
